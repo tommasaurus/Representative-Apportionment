@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+}
+
+jar {
+    archivesBaseName = "Apportionment"
+    manifest {
+        attributes "Main-Class": "scripts.Main"
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+group 'org.example'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.2'
+    runtimeOnly group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.18.0'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+
+    implementation group: 'commons-cli', name: 'commons-cli', version: '1.5.0'
+}
+
+test {
+    useJUnitPlatform()
+}
